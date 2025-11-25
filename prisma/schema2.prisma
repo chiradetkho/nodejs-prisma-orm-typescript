@@ -1,0 +1,14 @@
+generator client_2 {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma/generate-client-db2"
+}
+
+datasource db_2 {
+  provider = "postgresql"
+}
+
+model Customer {
+  id    Int     @id @default(autoincrement())
+  email String  @db_2.VarChar(255)
+  name  String?
+}

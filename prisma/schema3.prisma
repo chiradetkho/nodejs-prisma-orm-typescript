@@ -1,0 +1,13 @@
+generator client_3 {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma/generate-client-db3"
+}
+
+datasource db_3 {
+  provider = "postgresql"
+}
+
+model Employee {
+  Id   Int     @id
+  Name String? @db_3.VarChar(100)
+}
