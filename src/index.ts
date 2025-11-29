@@ -22,19 +22,36 @@ app.get('/', (_: Request, res: Response) => {
     return res.status(200).send({ message: 'test api' });
 });
 
-app.get('/user/db1', async (_: Request, res: Response) => {
+app.get('/user', async (_: Request, res: Response) => {
     const users = await prismaDb1.user.findMany();
     return res.status(200).send(users)
 });
 
-app.get('/customer/db2', async (_: Request, res: Response) => {
+app.get('/customer', async (_: Request, res: Response) => {
     const customers = await prismaDb2.customer.findMany()
     return res.status(200).send(customers)
 });
 
-app.get('/employee/db3', async (_: Request, res: Response) => {
-    const customers = await prismaDb3.employee.findMany();
-    return res.status(200).send(customers)
+app.get('/account', async (_: Request, res: Response) => {
+    try {
+        await prismaDb3.account.create({
+            data: {
+                name: 'test',
+                email: 'test@email.com',
+
+            }
+        })
+        const account = await prismaDb3.account.findMany();
+        return res.status(200).send(account)
+    } catch (error) {
+        if (error instanceof Error) {
+            console.error(error.message);
+            return res.status(500).json({ message: error.message })
+        } else {
+            return res.status(500).json({ error })
+        }
+    }
+
 });
 
 

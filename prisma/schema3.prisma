@@ -1,13 +1,17 @@
-generator client_3 {
+generator client3 {
   provider = "prisma-client"
   output   = "../src/generated/prisma/generate-client-db3"
 }
 
-datasource db_3 {
+datasource db3 {
   provider = "postgresql"
 }
 
-model Employee {
-  Id   Int     @id
-  Name String? @db_3.VarChar(100)
+model Account {
+  id Int @id @default(autoincrement())
+  name String?  @map("fullname")
+  role String @db3.VarChar(10) @default("member")
+  createAt DateTime @default(now())
+  email String @unique
+  @@map("accounts")
 }
