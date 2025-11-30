@@ -7,6 +7,27 @@ datasource db {
   provider = "postgresql"
 }
 
+model Department {
+  department_id   String     @id @db.VarChar(2)
+  department_name String?    @db.VarChar(100)
+  Employee        Employee[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model Employee {
+  emp_no        Int         @id
+  birth_date    DateTime    @db.Date
+  first_name    String      @db.VarChar(14)
+  last_name     String      @db.VarChar(16)
+  gender        String      @db.Char(1)
+  hire_date     DateTime    @db.Date
+  department_id String?     @db.VarChar(2)
+  Department    Department? @relation(fields: [department_id], references: [department_id], onUpdate: Restrict, map: "department_id")
+
+  @@index([department_id], map: "employee_department_fk")
+}
+
 model User {
   id    Int     @id @default(autoincrement())
   email String  @unique(map: "email") @db.VarChar(255)
